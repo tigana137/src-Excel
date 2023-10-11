@@ -624,7 +624,7 @@ const Excel4 = () => {
                         <div className="flex flex-col w-40 h-full ">
                             <ColumnHead title="التلميذ(ة)" />
                             <div className="h-full outline outline-1 outline-transparent   rounded-br-xl ">
-                                <input className="w-full h-full pr-1 text-center focus:outline-none outline outline-1 outline-transparent rounded-br-xl" name={"nom_prenom"} value={eleve.nom_prenom} onChange={handle_change} onKeyUpCapture={handle_Enter} />
+                                <input autoComplete="off" className="w-full h-full pr-1 text-center focus:outline-none outline outline-1 outline-transparent rounded-br-xl" name={"nom_prenom"} value={eleve.nom_prenom} onChange={handle_change} onKeyUpCapture={handle_Enter} />
                             </div>
                         </div>
 
@@ -638,14 +638,14 @@ const Excel4 = () => {
                         <div className="flex flex-col w-40 h-full border-r border-black ">
                             <ColumnHead title="اسم الأب" />
                             <div className=" h-full">
-                                <input className="w-full h-full pr-1 text-center focus:outline-none" name="nom_pere" value={eleve.nom_pere} onChange={handle_change} onKeyUpCapture={handle_Enter} />
+                                <input autoComplete="off" className="w-full h-full pr-1 text-center focus:outline-none" name="nom_pere" value={eleve.nom_pere} onChange={handle_change} onKeyUpCapture={handle_Enter} />
                             </div>
                         </div>
 
                         <div className="flex flex-col w-24 h-full border-r border-black ">
                             <ColumnHead title="تاريخ الولادة" />
                             <div className=" h-full">
-                                <input className="w-full h-full pr-1 text-center focus:outline-none" name="date_naissance" value={eleve.date_naissance ? String(eleve.date_naissance) : ""} onChange={handle_change} onKeyUpCapture={handle_Enter} />
+                                <input autoComplete="off" className="w-full h-full pr-1 text-center focus:outline-none" name="date_naissance" value={eleve.date_naissance ? String(eleve.date_naissance) : ""} onChange={handle_change} onKeyUpCapture={handle_Enter} />
                             </div>
                         </div>
 

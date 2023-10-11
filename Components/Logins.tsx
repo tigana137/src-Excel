@@ -105,8 +105,8 @@ const Logins = () => {
 
     return (
         <>
-            <div className="absolute top-0 w-full h-screen bg-white ">
-                <div className=" flex flex-col w-full justify-center items-center mt-16">
+            <div className="absolute top-0 w-full h-screen bg-slate-900/75 ">
+                <div className=" flex flex-col w-full justify-center items-center mt-16 w-fit bg-white">
                     <div className="font-semibold text-4xl text-blueGray-700">
                         : الرجاء ادخال الرمز التالي
                     </div>
@@ -118,7 +118,7 @@ const Logins = () => {
                             onKeyUp={handle_input_id}
 
                         />
-                        <button className={"flex items-center justify-center text-white bg-green-800  font-medium rounded-lg text-sm  mr-2 mb-2 w-32 h-11 transition-transform " + (Enable_buttons && 'hover:bg-green-700 outline-none focus:ring-4 shadow-lg transform active:scale-75 ') + (!Enable_buttons && ' ')}
+                        <button className={"flex items-center justify-center text-white bg-green-800/75  font-medium rounded-lg text-sm  mr-2 mb-2 w-32 h-11 transition-transform " + (Enable_buttons && 'hover:bg-green-700 outline-none focus:ring-4 shadow-lg transform active:scale-75 ') + (!Enable_buttons && ' ')}
                             disabled={!Enable_buttons} onClick={handle_click}>
                             {!Enable_buttons ?
                                 <div className='ml-2 '>
