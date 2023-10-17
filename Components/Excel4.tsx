@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import sort_img from '../img/sorting2.png'
+import sort_img from '../img/sorting2.png';
+import check_img from '../img/check.png';
+import download_img from '../img/download.png';
 import { UseUrl } from "../App";
 import VirginTableRow from "./VirginTableRow";
 import ErrorConComponent from "./ErrorConComponent";
@@ -574,9 +576,11 @@ const Excel4 = () => {
                         </div>
 
                         <button className="absolute top-20 left-20 hover:scale-125 transition-transform outline outline-1 border-black rounded-full  " id="Download" onClick={downloadexcel}>
-                            <svg className="w-7 h-7 text-gray-800 dark:text-white  py-0.5 px-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3" />
-                            </svg>
+                       { //    <svg className="w-7 h-7 text-gray-800 dark:text-white  py-0.5 px-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
+                         //       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3" />
+                         //   </svg>
+                            }
+                            <img src={download_img} className="w-7 h-7 text-gray-800 dark:text-white  py-0.5 px-1.5" />
                             <div></div>
                         </button>
 
@@ -593,7 +597,7 @@ const Excel4 = () => {
 
                                     <div className="flex border border-black rounded-xl text-right h-7 mt-0.5">
                                         <input
-                                            onChange={handle_input} value={xxx} id="uid" type="text" dir="ltr" autoFocus className="text-right pr-5 w-40  rounded-xl focus:outline-none appearance-none spin-button-hidden" />
+                                            onChange={handle_input} value={xxx} id="uid" type="text" dir="ltr" autoFocus autoComplete="off" className="text-right pr-5 w-40  rounded-xl focus:outline-none appearance-none spin-button-hidden" />
 
 
                                         <span className="ml-2 mt-0.5 w-4">
@@ -721,9 +725,11 @@ const Excel4 = () => {
                             <ColumnHead title="تسجيل" />
                             <div className="flex h-full justify-center items-center">
                                 <button className="h-7 w-fit rounded-lg focus:border-2 focus:border-slate-800  " onClick={addElv} id="Submit">
-                                    <svg className="w-6 h-6 text-gray-800 dark:text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                    </svg>
+                            { //       <svg className="w-6 h-6 text-gray-800 dark:text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                              //          <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                              //      </svg>
+                                    }
+                                    <img src={check_img} className="w-6 h-6 text-gray-800 dark:text-white" />
                                 </button>
                             </div>
                         </div>

@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { UseSwitch, UseUrl } from "../App";
 import img from "./../img/2.jpg"
-
 import img2 from "./../img/xp2.png"
+
 
 const Logins2 = () => {
 
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);  // ~
     const ngrok = UseUrl();
     const go_to_main = UseSwitch();
-    const [imageData, set_image] = useState("")
+    const [imageData, set_image] = useState<string>();
 
     const [code, set_code] = useState("");
     const [error_IsNaN, set_error_IsNaN] = useState(false)
@@ -38,17 +38,19 @@ const Logins2 = () => {
             setIsLoading(false)
         }
 
-        orginizer()
+       // orginizer()   ~~
 
 
 
 
 
     }, [])
+
+    
     useEffect(() => {
-        if (imageData !== "") {
+        if (imageData)
             displayImage(imageData)
-        }
+
     }, [imageData])
 
 
@@ -87,18 +89,18 @@ const Logins2 = () => {
             }
         };
 
-        go_to_main()
-        // set_buttons(false)
+        set_buttons(false)
         // await SendCode();
-        //  set_buttons(true)
+        set_buttons(true)
+        go_to_main()
 
     }
 
 
 
-    // if (isLoading) {
-    //     return <Loading />
-    // }
+    if (isLoading) {
+        return <Loading />
+    }
 
 
 
@@ -124,20 +126,23 @@ const Logins2 = () => {
                         style={{ height: "497px" }}>
 
                         <div className="items-center border-b focus-within:border-teal-500 py-2 mb-7 mt-2">
-                            <input autoComplete="off" className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Nom" name="nom" />
+                            <input autoComplete="off" className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="اسم المستعمل" name="nom" />
                         </div>
 
                         <div className="items-center border-b  py-2 focus-within:border-teal-500 mb-7 ">
-                            <input autoComplete="off" className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Mdp" name="mdp" />
+                            <input autoComplete="off" className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="كلمة السرّ" name="mdp" />
                         </div>
 
-                        <div className="items-center border-b  py-2 focus-within:border-teal-500 w-1/2 mb-20 " >
-                            <input autoComplete="off" className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Mdp" name="securite" onKeyUp={handle_input_id} />
+                        <div className="flex mb-20 py-2 " >
+                            <div className="items-center border-b focus-within:border-teal-500 w-1/2 mr-4 ">
+                                <input autoComplete="off" className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="الرمز" name="securite" onKeyUp={handle_input_id} />
+                            </div>
+                            {imageData && <img className=" " id="imageElement" src="" alt="Image" />}
                         </div>
 
                         <div className=" flex w-full  justify-center ">
 
-                            <button type="button" className="text-white bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-600  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-60 h-12"
+                            <button id="Submit" type="button" className="text-white bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-600  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-60 h-12"
                                 onClick={handle_click}>
                                 {!Enable_buttons ?
                                     <div className='ml-2 '>
