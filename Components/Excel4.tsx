@@ -16,8 +16,10 @@ export interface Eleve {
     nom_pere: string;
     date_naissance: String | null;
     prev_ecole: string;
+    prev_ecole_id:number;
     Del1: string;
     next_ecole: string;
+    next_ecole_id: number;
     level: number | undefined;
     reason?: string;
     decision: string;
@@ -32,7 +34,7 @@ const Excel4 = () => {
     const [ecoles, set_ecoles] = useState<{ [del1: string]: string[] }>({});
     const reasons = ["تغيير مقر الإقامة", "موافقة المدير", "نقلة عمل الولى", "له اخ بنفس المدرسة", "لديه أخت بالمدرسة",]
     const [eleves, set_eleves] = useState<Eleve[]>([]);
-    const [eleve, set_eleve] = useState<Eleve>({ nom_prenom: '', nom_pere: '', date_naissance: null, decision: '', Del1: '', prev_ecole: '', level: 0, id: 0, uid: 0, reason: '', comments: '', next_ecole: '' });
+    const [eleve, set_eleve] = useState<Eleve>({ nom_prenom: '', nom_pere: '', date_naissance: null, decision: '', Del1: '', prev_ecole: '',prev_ecole_id:0,next_ecole_id:0, level: 0, id: 0, uid: 0, reason: '', comments: '', next_ecole: '' });
     const [ErrorConnection, set_ErrorConnection] = useState(false);
 
     const [sorted_column, set_sorted_column] = useState("nom");
@@ -52,7 +54,7 @@ const Excel4 = () => {
     useEffect(() => {
         const testSignal = async () => {
             try {
-                const response = await fetch(ngrok + "/login_handler/testSignal/");
+                const response = await fetch(ngrok + "testSignal/");
                 if (!response.ok) {
                     console.log("!response.ok")
                     throw new Error('Network response was not ok');
@@ -72,7 +74,7 @@ const Excel4 = () => {
 
         const fetch_Del1 = async () => {
             try {
-                const response = await fetch(ngrok + "/login_handler/GetEDel1/");
+                const response = await fetch(ngrok + "GetEDel1/");
                 if (!response.ok) {
                     console.log("!response.ok")
                     throw new Error('Network response was not ok');
@@ -87,7 +89,7 @@ const Excel4 = () => {
 
         const fetch_ecoles = async () => {
             try {
-                const response = await fetch(ngrok + "/login_handler/GetEcoles/");
+                const response = await fetch(ngrok + "GetEcoles/");
                 if (!response.ok) {
                     console.log("!response.ok")
                     throw new Error('Network response was not ok');
@@ -113,7 +115,7 @@ const Excel4 = () => {
         if (xxx.length === 12) {
             const fetchData = async () => {
                 try {
-                    const response = await fetch(ngrok + "/login_handler/GetElv/" + xxx);
+                    const response = await fetch(ngrok + "GetElv/" + xxx);
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
@@ -517,7 +519,7 @@ const Excel4 = () => {
         const SendData = async () => {
             async function downloadExcelFile() {
                 // Replace 'your-django-url' with the actual URL of your Django view
-                const url = ngrok + "/login_handler/CreateExcel/";
+                const url = ngrok + "CreateExcel/";
 
                 await fetch(url, {
                     method: 'POST',
@@ -576,9 +578,9 @@ const Excel4 = () => {
                         </div>
 
                         <button className="absolute top-20 left-20 hover:scale-125 transition-transform outline outline-1 border-black rounded-full  " id="Download" onClick={downloadexcel}>
-                       { //    <svg className="w-7 h-7 text-gray-800 dark:text-white  py-0.5 px-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
-                         //       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3" />
-                         //   </svg>
+                            { //    <svg className="w-7 h-7 text-gray-800 dark:text-white  py-0.5 px-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
+                                //       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3" />
+                                //   </svg>
                             }
                             <img src={download_img} className="w-7 h-7 text-gray-800 dark:text-white  py-0.5 px-1.5" />
                             <div></div>
@@ -668,7 +670,7 @@ const Excel4 = () => {
                                 </div>
                                 <div className="absolute w-36 border border-black mt-0.5 border-t-0 bg-white l-4 text-right pr-1 cursor-default overflow-y-hidden" id="Del1Select" hidden={true}>
                                     {del1s.map((each, index) => {
-                                        return <div className="hover:bg-slate-300 pb-0.5" val-att={each} onMouseDown={handle_select} >{index + 1 + ". "}{each}</div>
+                                        return <div className="hover:bg-slate-300 pb-0.5" val-att={each} onMouseDown={handle_select} key={index} >{index + 1 + ". "}{each}</div>
                                     })}
                                 </div>
                             </div>
@@ -725,9 +727,10 @@ const Excel4 = () => {
                             <ColumnHead title="تسجيل" />
                             <div className="flex h-full justify-center items-center">
                                 <button className="h-7 w-fit rounded-lg focus:border-2 focus:border-slate-800  " onClick={addElv} id="Submit">
-                            { //       <svg className="w-6 h-6 text-gray-800 dark:text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                              //          <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                              //      </svg>
+                                    {
+                                        //       <svg className="w-6 h-6 text-gray-800 dark:text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        //          <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                                        //      </svg>
                                     }
                                     <img src={check_img} className="w-6 h-6 text-gray-800 dark:text-white" />
                                 </button>
@@ -762,8 +765,8 @@ const Excel4 = () => {
                                 })}
                                 {eleves.length <= 9 && (
                                     <>
-                                        {Array.from({ length: 9 - eleves.length }).map((_,) => (
-                                            <VirginTableRow />
+                                        {Array.from({ length: 9 - eleves.length }).map((_, index2) => (
+                                            <VirginTableRow key={index2} />
                                         ))}
                                     </>
                                 )

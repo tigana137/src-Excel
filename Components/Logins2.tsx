@@ -20,7 +20,7 @@ const Logins2 = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(ngrok + "/login_handler/GetCapatcha/");
+                const response = await fetch(ngrok + "GetCapatcha/");
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -77,7 +77,7 @@ const Logins2 = () => {
     const handle_click = async () => {
         const SendCode = async () => {
             try {
-                const response = await fetch(ngrok + "/login_handler/VerifyCapatcha/" + code);
+                const response = await fetch(ngrok + "VerifyCapatcha/" + code);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

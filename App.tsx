@@ -21,8 +21,8 @@ export interface ParamsProp {
 const ParamsContext = React.createContext<ParamsProp>({ sid: 0, school_name: "", saisieprenom: "", saisienom: "", login: "", saisiepasswd: "", mp: '', ecole_url: "" })
 const SwitchContext = React.createContext<Function>(() => { })
 
-const UrlContext = React.createContext<string>('http://xzy.pagekite.me/')
-
+const UrlContext = React.createContext<string>('https://tigana1.pythonanywhere.com/x/')
+'http://localhost:80/x/'
 export const UseParams = () => {
   return useContext(ParamsContext)
 }
