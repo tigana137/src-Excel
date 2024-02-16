@@ -25,6 +25,9 @@ const VirginTableRow = () => {
             <td className="border-x border-slate-500  text-center align-middle text-xs  w-20">
             </td>
 
+            <td className="border-x border-slate-500  text-center align-middle  text-xs  w-16 ">
+            </td>
+
             <td className="border-x border-slate-500  text-center align-middle  text-xs  w-32 ">
             </td>
 

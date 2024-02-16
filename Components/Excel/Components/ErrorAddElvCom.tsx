@@ -1,4 +1,4 @@
-import { Eleve } from './Excel4'
+import { Eleve } from '../../Excel'
 
 
 const ErrorAddElvCom = ({ eleve, set_error_addElv }: { eleve: Eleve, set_error_addElv: Function }) => {
