@@ -141,8 +141,9 @@ export const cityIdContext = createContext<number>(0)
 
 export const CityDataContext = createContext<CityData>({})
 
-const url = 'http://localhost:80/api/'
-'https://tigana1.pythonanywhere.com/'
+const url = 'https://tigana1.pythonanywhere.com/'
+'http://localhost:80/api/'
+
 
 
 
