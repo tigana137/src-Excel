@@ -501,6 +501,7 @@ const Excel4 = ({ setServerError }: { setServerError: Function }) => {
                 transfer_elv(eleve.prev_ecole_id, eleve.next_ecole_id, eleve.level, false)
                 setRowsNumber(prev => prev + 1)
                 await set_eleves(prev_eleves => [eleve, ...prev_eleves])
+                set_eleve({ nom_prenom: '', nom_pere: '', date_naissance: null, decision: '', Del1: '', prev_ecole: '', prev_ecole_id: 0, next_ecole_id: 0, level: "", id: 0, uid: 0, reason: '', comments: '', next_ecole: '' })
             }
             handle_focus("uid")
         }
