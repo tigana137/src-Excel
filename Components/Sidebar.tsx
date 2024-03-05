@@ -1,13 +1,11 @@
 import { ChevronLast, ChevronFirst } from "lucide-react"
-import { useContext, createContext, useState } from "react"
+import { useState } from "react"
 
 import { Link } from "react-router-dom"
 import { pageProp, pages } from "../App"
-import { UseUpdatePage } from "./UseHooks"
 
 
 
-const SidebarContext = createContext<boolean>(false)
 
 export default function Sidebar() {
 
@@ -34,22 +32,20 @@ export default function Sidebar() {
                         </button>
                     </div>
 
-                    <SidebarContext.Provider value={expanded}>
-                        <ul className="flex-1 px-3 ">
+                    <ul className="flex-1 px-3 ">
 
-                            {pages.map((page, index) => {
-                                return (
-                                    <div key={index}>
+                        {pages.map((page, index) => {
+                            return (
+                                <div key={index}>
 
-                                        <SidebarItem page={page} active={false} alert={false} />
-                                        {(index === 0 || index === 6 || index === 8) && <hr />}
+                                    <SidebarItem page={page} active={false} alert={false} expanded={expanded} />
+                                    {(index === 0 || index === 6 || index === 8) && <hr />}
 
-                                    </div>
-                                )
-                            })}
+                                </div>
+                            )
+                        })}
 
-                        </ul>
-                    </SidebarContext.Provider>
+                    </ul>
 
                     <div className="border-t flex p-3">
                         <img src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true" alt="" className="w-10 h-10 rounded-md" />
@@ -73,11 +69,10 @@ export default function Sidebar() {
 
 
 
-export const SidebarItem = ({ page, active, alert }: { page: pageProp, active: boolean, alert: boolean }) => {
-    const expanded = useContext(SidebarContext);
-    const updatePage = UseUpdatePage();
+export const SidebarItem = ({ page, active, alert, expanded }: { page: pageProp, active: boolean, alert: boolean, expanded: boolean }) => {
+
     return (
-        <Link to={page.path} onClick={() => { updatePage(page.path) }}  >
+        <Link to={page.path}  >
             <li
                 className={`
           relative flex items-center py-2 px-3 my-1

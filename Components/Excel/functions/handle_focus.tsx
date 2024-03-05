@@ -3,7 +3,7 @@
 
 export const handle_focus = (current_element: string) => {
     if (current_element === 'uid') {
-        const input = document.getElementById("uid") as HTMLInputElement;
+        const input = document.getElementById("uidFocusCell") as HTMLInputElement;
         //   input.focus();
         input.focus();
     }
@@ -55,7 +55,7 @@ export const handle_focus = (current_element: string) => {
         input.focus();
     }
     else if (current_element === 'date_naissance') {
-        const input = document.querySelector('input[name="prev_ecole"]') as HTMLInputElement;
+        const input = document.querySelector('input[name="level"]') as HTMLInputElement;
         input.focus();
     }
     else if (current_element === 'prev_ecole') {

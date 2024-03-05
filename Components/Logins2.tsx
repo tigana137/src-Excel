@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import img from "./../img/2.jpg"
 import img2 from "./../img/xp2.png"
-import { UseUrl, UseSwitch } from "./UseHooks";
+import { UseSwitch } from "./UseHooks";
+import getUrl from "../useContext/getUrl";
 
 
 const Logins2 = () => {
 
     const [isLoading, setIsLoading] = useState(false);  // ~
-    const ngrok = UseUrl();
+    const url = getUrl();
     const go_to_main = UseSwitch();
     const [imageData, set_image] = useState<string>();
 
@@ -20,7 +21,7 @@ const Logins2 = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(ngrok + "x/GetCapatcha/");
+                const response = await fetch(url + "x/GetCapatcha/");
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -38,7 +39,7 @@ const Logins2 = () => {
             setIsLoading(false)
         }
 
-       // orginizer()   ~
+         orginizer() 
 
 
 
@@ -76,7 +77,7 @@ const Logins2 = () => {
     const handle_click = async () => {
         const SendCode = async () => {
             try {
-                const response = await fetch(ngrok + "x/VerifyCapatcha/" + code);
+                const response = await fetch(url + "x/VerifyCapatcha/" + code);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -89,7 +90,7 @@ const Logins2 = () => {
         };
 
         set_buttons(false)
-        // await SendCode();  ~
+        await SendCode(); 
         set_buttons(true)
         go_to_main()
 

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { UseData, UseLevel, UseUpdatePage } from "./UseHooks";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { elvs_remainingCapacity, kethefa, nbr_elvs_inLevel } from "./MainTable/calcul_ecole";
+import { useCityDataContext } from "../useContext/useCityDataContext";
+import { LevelProp } from "@/App";
 
 
 
@@ -9,36 +11,21 @@ import { useNavigate, useParams } from "react-router-dom";
 
 
 
-const LevelComp = ({ level }: { level: string }) => {
+const LevelComp = () => {
 
-    const data = UseData();
-    const [picked, setpicked] = useState<number>();
-    const prev_level = UseLevel();
-    const updatePage = UseUpdatePage();
-    const navigate = useNavigate();
+    const { CityData: data } = useCityDataContext();
+    const [del1_picked, set_del1] = useState<number>();
+    const paramss = useParams();
+    const level: LevelProp = paramss.level as LevelProp;
 
-    useEffect(() => {
-
-        console.log(level)
-        if (level !== prev_level) {
-
-            updatePage(level)
-        }
-
-    }, [navigate]);
 
     useEffect(() => {
 
         if (Object.keys(data).length > 0) {
             const first_key = Object.keys(data)[0];
-            setpicked(Number(first_key));
+            set_del1(Number(first_key));
         }
     }, [data]);
-
-
-    function getRandomNumber(min = 3, max = 30) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
 
 
     if (Object.keys(data).length === 0) {
@@ -54,6 +41,7 @@ const LevelComp = ({ level }: { level: string }) => {
         )
     }
 
+
     return (
         <>
             <div className="top-0 bg-indigo-200/75   w-full px-10 flex justify-center overflow-y-scroll ">
@@ -64,7 +52,7 @@ const LevelComp = ({ level }: { level: string }) => {
 
 
                             <div key={cityID} className={"flex select-none items-center text-center cursor-pointer border border-b-0  border-gray-300 h-9 px-2 rounded-tl-2xl rounded-tr-lg  " +
-                                (picked === Number(cityID) ? "bg-violet-400" : 'bg-tablebg hover:bg-violet-300')} onClick={() => setpicked(Number(cityID))}>
+                                (del1_picked === Number(cityID) ? "bg-violet-400" : 'bg-tablebg hover:bg-violet-300')} onClick={() => set_del1(Number(cityID))}>
                                 {city.name}
                             </div>
 
@@ -97,40 +85,42 @@ const LevelComp = ({ level }: { level: string }) => {
                                         الكثافة
                                     </th>
                                     <th className="w-28 text-right">
-                                        المقاعد الشاغرة
+                                        هامش الزيادة/النقصان
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
 
-                                {picked && Object.entries(data[picked].ecoles).map(([_, school], index) => {
+                                {del1_picked && Object.entries(data[del1_picked].ecoles).map(([_, school], index) => {
 
-                                    const zyeda_no9san = school[prev_level][3] - school[prev_level][2]
-                                    const kethefa = (school[prev_level][0] + zyeda_no9san / school[prev_level][1]).toFixed(1)
+                                    const current_nbr_elvs = nbr_elvs_inLevel(school[level].nbr_elvs, school[level].nbr_leaving, school[level].nbr_comming)
+                                    const zyeda_no9san = elvs_remainingCapacity(current_nbr_elvs, school[level].nbr_classes)
+                                    const nbr_kethefa = kethefa(current_nbr_elvs, school[level].nbr_classes)
+
                                     return <tr className=" h-16 border-b border-black " key={index}>
                                         <td>
                                             {school.name}
                                         </td>
                                         <td className=" pr-5">
-                                            {school[prev_level][0]}
+                                            {school[level].nbr_elvs}
                                         </td>
                                         <td className=" pr-5">
-                                            {school[prev_level][2]}
+                                            {school[level].nbr_leaving}
                                         </td>
                                         <td className=" pr-5">
-                                            {school[prev_level][3]}
+                                            {school[level].nbr_comming}
                                         </td>
                                         <td className=" pr-5">
-                                            {zyeda_no9san}
+                                            {current_nbr_elvs}
                                         </td>
                                         <td className=" pr-5">
-                                            {school[prev_level][1]}
+                                            {school[level].nbr_classes}
                                         </td>
-                                        <td className=" pr-5">
-                                            {kethefa}
+                                        <td className="">
+                                            <Kethefa_cell number={Number(nbr_kethefa)} />
                                         </td>
-                                        <td className=" pr-5">
-                                            {getRandomNumber()}
+                                        <td className="pr-5">
+                                            <Hemich_cell number={zyeda_no9san} />
                                         </td>
                                     </tr>
 
@@ -159,6 +149,61 @@ const LoadingIcon = () => {
         </svg>
     )
 }
+
+
+const Kethefa_cell = ({ number }: { number: number }) => {
+
+    const possible_colors = ['text-green-800', 'text-yellow-800', 'text-red-800', 'bg-green-100', 'bg-yellow-100', 'bg-red-100']
+    let color: string
+    if (number >= 33) color = "red"
+    else if (number <= 33 && number >= 19) color = "green"
+    else color = "yellow"
+
+    return (
+        <div className=" w-20" >
+            <span className={` w-16 py-1 px-1.5 h-7 inline-flex items-center gap-x-1 text-xs font-medium bg-${color}-100 text-${color}-800 rounded-full`}>
+                <span className=" w-7 justify-center flex">
+                    {number}
+                </span>
+
+                <svg className="size-2.5 w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" >
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                </svg>
+            </span>
+        </div>
+    )
+}
+
+
+const Hemich_cell = ({ number }: { number: number }) => {
+
+    const possible_colors = ['text-green-800', 'text-yellow-800', 'text-red-800']
+    let color: string
+    if (number >= 0) color = "red"
+    else color = "green"
+
+    return (
+        <div className=" w-20" >
+            <span className="inline-flex">
+                <span className=" w-6 ">
+                    {Math.abs(number)}
+                </span>
+
+                {
+                    number <= 0 ?
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={` w-6 h-6 text-red-600 `}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6 9 12.75l4.286-4.286a11.948 11.948 0 0 1 4.306 6.43l.776 2.898m0 0 3.182-5.511m-3.182 5.51-5.511-3.181" />
+                        </svg> :
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-green-600">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+                        </svg>
+
+                }
+            </span>
+        </div>
+    )
+}
+
 
 
 export default LevelComp;

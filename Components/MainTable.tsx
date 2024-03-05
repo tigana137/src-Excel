@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { LevelArray, School, } from "../App";
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { UseData } from "./UseHooks";
+import { ecole_total_classes, ecole_total_elvs, elvs_remainingCapacity, kethefa, nbr_elvs_inLevel } from "./MainTable/calcul_ecole";
+import { useCityDataContext } from "../useContext/useCityDataContext";
 
 
 
@@ -11,7 +12,8 @@ import { UseData } from "./UseHooks";
 
 const MainTable = () => {
     // const ngrok = UseUrl();
-    const data = UseData();
+    const { CityData: data } = useCityDataContext();
+
     const tableHeads = [
         "",
         "المدرسة",
@@ -34,10 +36,12 @@ const MainTable = () => {
 
     }, [])
 
-    const LevelsTable = ({ level, index }: { level: [number, number, number, number]; index: number }) => {
-        const zyeda_no9san = level[3] - level[2]
-        const current_elvs_number = level[0] + zyeda_no9san
-        const kethefa = (current_elvs_number / level[1]).toFixed(1)
+    const LevelsTable = ({ level, index }: { level: LevelArray; index: number }) => {
+
+        const current_elvs_number = nbr_elvs_inLevel(level.nbr_elvs, level.nbr_leaving, level.nbr_comming)
+        const kethefa = (current_elvs_number / level.nbr_classes).toFixed(1)
+        const zyeda_no9san = elvs_remainingCapacity(current_elvs_number, level.nbr_classes)
+
         return (
             <>
                 <tr>
@@ -46,13 +50,13 @@ const MainTable = () => {
                     </td>
 
                     <td className=" text-center">
-                        {level[0]}
+                        {level.nbr_elvs}
                     </td>
                     <td className=" text-center">
                         {current_elvs_number}
                     </td>
                     <td className=" text-center">
-                        {level[1]}
+                        {level.nbr_classes}
                     </td>
                     <td className=" text-center">
                         {kethefa}
@@ -70,19 +74,21 @@ const MainTable = () => {
         )
     }
 
-    const CollapsableRow = ({ sid, levels }: { sid: number; levels: LevelArray[] }) => {
+
+    const CollapsableRow = ({ sid, levels, principal }: { sid: number; principal: string; levels: LevelArray[] }) => {
 
 
 
         return (
 
-            <tr className="  z-10"  >
+            <tr className="  z-10 "  >
                 <td className=" bg-transparent outline-none border-none shadow-none" />
                 <td colSpan={tableHeads.length - 1} className=" shadow-sm  border-none rounded-b-xl  overflow-hidden " >
                     <div className="pb-5  bg-white pt-2  shadow-lg rounded-b-xl">
                         <div className="flex ">
                             <div className="w-1/2 pr-3">
-
+                                <span>مدير المدرسة :  </span>
+                                <span>{principal}</span>
                             </div>
                             <div className="w-1/2 text-left pl-3">
                                 <span>رمز المدرسة :</span>
@@ -140,39 +146,52 @@ const MainTable = () => {
     const EcoleRow = ({ ecole, sid }: { ecole: School, sid: number }) => {
         const [open, setOpen] = useState(false); // ~
 
-        const kethefa = (ecole['nbr_elvs'] / ecole['nbr_classes']).toFixed(1);
+        const nbr_elvs = ecole_total_elvs(ecole)
+
+        const nbr_classes = ecole_total_classes(ecole)
+
+        const nbr_kethefa = kethefa(nbr_elvs, nbr_classes);
 
         return (
             <>
-                <tr onClick={() => setOpen(!open)} className={"sticky top-24  h-16 rounded-t-xl " + (open ? "" : "rounded-b-xl")} >
+                <tr onClick={() => setOpen(!open)} className={"sticky top-24  h-16 rounded-t-xl cursor-default " + (open ? "" : "rounded-b-xl")} >
+
                     <td className=" bg-transparent shadow-none  " />
 
                     <td className={"bg-white shadow-lg  outline-none border-none pr-4 text-right font-normal  " + (open ? "rounded-tr-xl " : "rounded-r-xl")} >
                         {ecole['name']}
                     </td>
+
                     <td className="bg-white shadow-lg outline-none border-none text-center">
-                        {ecole['nbr_elvs']}
+                        {nbr_elvs}
                     </td>
+
                     <td className="bg-white shadow-lg outline-none border-none text-center">
-                        {ecole['nbr_classes']}
+                        {nbr_classes}
                     </td>
+
                     <td className="bg-white shadow-lg outline-none border-none text-center">
-                        {kethefa}
+                        {nbr_kethefa}
                     </td>
+
                     <td className={"bg-white shadow-lg outline-none border-none text-center " + (open ? "rounded-tl-xl" : "rounded-l-xl")}>
+
                         <div className="flex">
-                            <div className="w-10/12">
-                            </div>
+
+                            <div className="w-10/12" />
+
                             <div className="">
 
                                 {open ? <ChevronUp /> : <ChevronDown />}
+
                             </div>
 
                         </div>
+
                     </td>
                 </tr>
 
-                {open && <CollapsableRow sid={sid} levels={[ecole["premiere"], ecole["deuxieme"], ecole["troisieme"], ecole["quatrieme"], ecole["cinquieme"], ecole["sixieme"]]} />}
+                {open && <CollapsableRow sid={sid} principal={ecole.principal} levels={[ecole["premiere"], ecole["deuxieme"], ecole["troisieme"], ecole["quatrieme"], ecole["cinquieme"], ecole["sixieme"]]} />}
 
                 <tr className=" h-7" />
             </>
@@ -247,7 +266,7 @@ const MainTable = () => {
                         <thead>
                             <tr className=" shadow-lg outline-none  sticky top-10 bg-gray-100 z-10 ">
                                 <th className=" w-4 h-11 rounded-r-xl" />
-                                <th className=" w-60  text-right pr-5 ">
+                                <th className=" w-72  text-right pr-5 ">
                                     المدرسة
                                 </th>
                                 <th className=" px-8 text-center">
@@ -260,7 +279,7 @@ const MainTable = () => {
                                     كثافة الفصول
                                 </th>
                                 <th className=" px-8 text-center ">
-                                    الزيادة/ النقصان
+                                    هامش الزيادة/النقصان
                                 </th>
                                 <th className="w-4 rounded-l-xl">
                                     <button onClick={() => setAllTo()}>
