@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { elvs_remainingCapacity, kethefa, nbr_elvs_inLevel } from "./MainTable/calcul_ecole";
-import { useCityDataContext } from "../useContext/useCityDataContext";
-import { LevelProp } from "@/App";
+
+import useCityDataContext from "../useContext/CityDataContext";
+import { LevelProp } from "../App";
 
 
 

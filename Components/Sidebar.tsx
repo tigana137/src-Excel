@@ -6,10 +6,14 @@ import { pageProp, pages } from "../App"
 
 
 
-
 export default function Sidebar() {
 
-    const [expanded, setExpanded] = useState(true)
+    const [expanded, setExpanded] = useState(true);
+    const [active, set_active] = useState(0);
+    const set_active_funct = (index: number) => {
+        set_active(index)
+    }
+
 
     return (
         <div className=" bg-transparent ">
@@ -38,7 +42,7 @@ export default function Sidebar() {
                             return (
                                 <div key={index}>
 
-                                    <SidebarItem page={page} active={false} alert={false} expanded={expanded} />
+                                    <SidebarItem page={page} active={active !== index ? false : true} expanded={expanded} index={index} set_active_funct={set_active_funct} />
                                     {(index === 0 || index === 6 || index === 8) && <hr />}
 
                                 </div>
@@ -69,18 +73,18 @@ export default function Sidebar() {
 
 
 
-export const SidebarItem = ({ page, active, alert, expanded }: { page: pageProp, active: boolean, alert: boolean, expanded: boolean }) => {
-
+export const SidebarItem = ({ page, active, expanded, index, set_active_funct }: { page: pageProp, active: boolean, expanded: boolean, index: number, set_active_funct: Function }) => {
+    console.log(active)
     return (
-        <Link to={page.path}  >
+        <Link to={page.path} onClick={() => set_active_funct(index)}  >
             <li
                 className={`
           relative flex items-center py-2 px-3 my-1
           font-medium rounded-md cursor-pointer
           transition-colors group
           ${active
-                        ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
-                        : "hover:bg-violet-200 text-gray-600"}`}>
+                        ? "bg-gradient-to-tr from-indigo-300 to-indigo-200 text-indigo-800"
+                        : "hover:bg-indigo-100 text-gray-600"}`}>
 
                 <img src={page.icon} alt="" className="w-10 h-10 rounded-md" />
 
@@ -88,9 +92,6 @@ export const SidebarItem = ({ page, active, alert, expanded }: { page: pageProp,
                     {page.name}
                 </span>
 
-                {alert && (
-                    <div className={`absolute left-2 w-2 h-2 rounded bg-indigo-400 ${expanded ? "" : "top-2"}`} />
-                )}
 
                 {!expanded && (
                     <div className={`

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { CityData, LevelArray, School } from "../App";
+import { CityData, LevelArray, LevelProp, School } from "../App";
 import getUrl from "./getUrl";
 
 
@@ -14,9 +14,9 @@ const CityDataContext2 = createContext<CityDataContext2Props | null>(null)
 type CityDataContextProps = {
     children: React.ReactNode;
 }
-export default function CityDataContext2Provider({ children }: CityDataContextProps) {
+export const CityDataContext2Provider = ({ children }: CityDataContextProps) => {
     const url = getUrl()
-    const levels = ["premiere", "deuxieme", "troisieme", "quatrieme", "cinquieme", "sixieme"]
+    const levels: LevelProp[] = ["premiere", "deuxieme", "troisieme", "quatrieme", "cinquieme", "sixieme"]
 
     const [CityData, useCityData] = useState<CityData>({});
 
@@ -49,8 +49,8 @@ export default function CityDataContext2Provider({ children }: CityDataContextPr
     }, [])
 
     const transfer_elv = (prev_ecole_id: number, next_ecole_id: number, level: number, cancel: boolean) => {
-        const niveau: string = levels[level - 1];
-
+        const niveau: LevelProp = levels[level - 1];
+        console.log(prev_ecole_id, next_ecole_id, level, cancel)
         console.log('t5l')
         if (prev_ecole_id !== 0) {
 
@@ -62,22 +62,9 @@ export default function CityDataContext2Provider({ children }: CityDataContextPr
 
 
                 const prev_ecoleArray: LevelArray = (prevData[del1_id].ecoles[prev_ecole_id] as any)[niveau] as LevelArray;
+                !cancel ? prev_ecoleArray.nbr_leaving = prev_ecoleArray.nbr_leaving + 1 : prev_ecoleArray.nbr_leaving = prev_ecoleArray.nbr_leaving - 1
 
-
-                return {
-                    ...prevData,
-                    [del1_id]: {
-                        ...prevData[del1_id],
-                        ecoles: {
-                            ...prevData[del1_id].ecoles,
-                            [prev_ecole_id]: {
-                                ...prevData[del1_id].ecoles[prev_ecole_id],
-                                [niveau]: !cancel ? [prev_ecoleArray.nbr_classes, prev_ecoleArray.nbr_classes, prev_ecoleArray.nbr_leaving + 1, prev_ecoleArray.nbr_comming] : [prev_ecoleArray.nbr_classes, prev_ecoleArray.nbr_classes, prev_ecoleArray.nbr_leaving - 1, prev_ecoleArray.nbr_comming]
-                            },
-
-                        },
-                    }
-                }
+                return prevData
             });
 
 
@@ -95,19 +82,9 @@ export default function CityDataContext2Provider({ children }: CityDataContextPr
 
                 const next_ecoleArray: LevelArray = (prevData[del1_id].ecoles[next_ecole_id] as any)[niveau] as LevelArray;
 
-                return {
-                    ...prevData,
-                    [del1_id]: {
-                        ...prevData[del1_id],
-                        ecoles: {
-                            ...prevData[del1_id].ecoles,
-                            [next_ecole_id]: {
-                                ...prevData[del1_id].ecoles[next_ecole_id],
-                                [niveau]: !cancel ? [next_ecoleArray.nbr_classes, next_ecoleArray.nbr_classes, next_ecoleArray.nbr_leaving, next_ecoleArray.nbr_comming + 1] : [next_ecoleArray.nbr_classes, next_ecoleArray.nbr_classes, next_ecoleArray.nbr_leaving, next_ecoleArray.nbr_comming - 1]
-                            }
-                        },
-                    }
-                }
+                !cancel ? next_ecoleArray.nbr_comming = next_ecoleArray.nbr_comming + 1 : next_ecoleArray.nbr_comming = next_ecoleArray.nbr_comming - 1
+
+                return prevData
             });
 
 
@@ -122,7 +99,7 @@ export default function CityDataContext2Provider({ children }: CityDataContextPr
 
 
 
-export const useCityDataContext = () => {
+export default function useCityDataContext() {
 
     const context = useContext(CityDataContext2);
 

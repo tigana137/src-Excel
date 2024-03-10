@@ -5,7 +5,7 @@ import { School } from "../../App"
 
 
 export const nbr_elvs_inLevel = (initial_nbr_elv: number, nbr_leaving: number, nbr_comming: number) => {
-    return initial_nbr_elv + nbr_comming + nbr_leaving
+    return initial_nbr_elv + nbr_comming - nbr_leaving
 }
 
 export const elvs_remainingCapacity = (current_elvs_number: number, nbr_classes: number) => {

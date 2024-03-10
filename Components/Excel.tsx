@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import VirginTableRow from "./VirginTableRow";
 import ErrorConComponent from "./ErrorConComponent";
 import DowloadCom from "./Excel/Components/DowloadCom";
-import { Usetransfer_elv } from "./UseHooks";
+import { Usetransfer_elv } from "../useContext/UseHooks";
 import TableHeads from "./Excel/Components/TableHeads";
 import { cancel_elv_db, transfer_elv_db } from "./Excel/functions/cancel_elv_db";
 import { handle_focus } from "./Excel/functions/handle_focus";
@@ -10,8 +10,9 @@ import { handle_focus } from "./Excel/functions/handle_focus";
 import axios from "axios";
 import IdInput_Component from "./Excel/Components/IdInput_Component";
 import getUrl from "../useContext/getUrl";
-import ElvToTransfer from "./Excel/Components/ElvToTransfer";
+import ElvToTransfer from "./Excel/Components/EditElv";
 import DownloadExcelCom from "./Excel/Components/DownloadExcelCom";
+import useCityDataContext from "../useContext/CityDataContext";
 
 
 
@@ -36,7 +37,7 @@ const empty_elv: Eleve = { nom_prenom: '', nom_pere: '', date_naissance: '', dec
 
 const Excel = ({ setServerError }: { setServerError: Function }) => {
     const url = getUrl();
-    const transfer_elv = Usetransfer_elv();
+    const { transfer_elv } = useCityDataContext();
     const [eleves, set_eleves] = useState<Eleve[]>([]);
     const [eleve, set_eleve] = useState<Eleve>(empty_elv)
     const [ErrorConnection, set_ErrorConnection] = useState(false);
@@ -287,7 +288,7 @@ const Excel = ({ setServerError }: { setServerError: Function }) => {
     }
 
 
-    console.log('t3 l excel', eleve)
+    // console.log('t3 l excel', eleve)
 
     return (
 
@@ -306,7 +307,7 @@ const Excel = ({ setServerError }: { setServerError: Function }) => {
 
                     <ElvToTransfer eleve={eleve} addElv={addElv} />
 
-                    <div className="h-24" />
+                  
 
 
                     <ScrollbarDiv>
@@ -336,7 +337,7 @@ export default Excel;
 const ScrollbarDiv = ({ children }: { children: React.ReactNode }) => {
 
     return (
-        <div className="w-full overflow-y-scroll   
+        <div className="w-full overflow-y-scroll  
         [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full
         [&::-webkit-scrollbar-track]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full
         [&::-webkit-scrollbar-thumb]:bg-gray-600 dark:[&::-webkit-scrollbar-track]:bg-slate-700

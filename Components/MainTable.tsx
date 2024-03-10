@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { LevelArray, School, } from "../App";
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { ecole_total_classes, ecole_total_elvs, elvs_remainingCapacity, kethefa, nbr_elvs_inLevel } from "./MainTable/calcul_ecole";
-import { useCityDataContext } from "../useContext/useCityDataContext";
+import useCityDataContext from "../useContext/CityDataContext";
 
 
 

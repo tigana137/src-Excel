@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import img from "./../img/2.jpg"
 import img2 from "./../img/xp2.png"
-import { UseSwitch } from "./UseHooks";
+import { UseSwitch } from "../useContext/UseHooks";
 import getUrl from "../useContext/getUrl";
 
 
@@ -39,7 +39,7 @@ const Logins2 = () => {
             setIsLoading(false)
         }
 
-         orginizer() 
+        orginizer()
 
 
 
@@ -90,7 +90,7 @@ const Logins2 = () => {
         };
 
         set_buttons(false)
-        await SendCode(); 
+        await SendCode();
         set_buttons(true)
         go_to_main()
 

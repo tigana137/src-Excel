@@ -22,8 +22,8 @@ import ErrorConComponent from './Components/ErrorConComponent';
 
 import "preline/preline";
 import { IStaticMethods } from "preline/preline";
-import CityDataContext2Provider from './useContext/useCityDataContext';
 import XX from './xx';
+import { CityDataContext2Provider } from './useContext/CityDataContext';
 
 
 declare global {

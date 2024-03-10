@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LevelProp } from "../App";
-import { UseLevel, UseUpdatePage } from "./UseHooks";
+import { UseLevel, UseUpdatePage } from "../useContext/UseHooks";
 
 
 
