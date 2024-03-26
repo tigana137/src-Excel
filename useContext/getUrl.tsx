@@ -9,7 +9,7 @@ export default function getUrl() {
 
     'https://4a71-102-159-248-7.ngrok-free.app/api/'
 
-    url = 'https://tigana1.pythonanywhere.com/'
+    url = 'https://tigana1.pythonanywhere.com/api/'
 
     return url
 }
