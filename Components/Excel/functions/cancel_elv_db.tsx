@@ -1,4 +1,4 @@
-import { Eleve } from "../../Excel";
+import { Eleve } from "../Excel";
 
 
 

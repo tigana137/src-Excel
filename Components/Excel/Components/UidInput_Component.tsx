@@ -1,20 +1,21 @@
 import { useState, useEffect, } from "react";
 import { handle_focus } from "../functions/handle_focus";
-import { Eleve } from "../../Excel";
+import { Eleve } from "../Excel";
 import HSPinInput from "@preline/pin-input";
 import getUrl from "../../../useContext/getUrl";
 
 
 
 
-const IdInput_Component = ({ set_eleve }: { set_eleve: (eleve: Eleve) => void }) => {
-    const url = getUrl();
+const UidInput_Component = ({ set_eleve }: { set_eleve: (eleve: Eleve) => void }) => {
 
     const [ErRoR_uid, set_error_uid] = useState(false);
     const [loading, set_loading] = useState(false);
 
 
     const getElv = async (uid: string) => {
+        const url = getUrl();
+        
         const fetchData = async () => {
             try {
                 const response = await fetch(url + "excel/GetElv/" + uid);
@@ -23,7 +24,7 @@ const IdInput_Component = ({ set_eleve }: { set_eleve: (eleve: Eleve) => void })
                         set_loading(false)
                         set_error_uid(true)
 
-                        set_eleve({ uid: Number(uid), nom_prenom: "", nom_pere: "", date_naissance: "", level: "", prev_ecole: "", prev_ecole_id: 0, Del1: "", next_ecole: "", next_ecole_id: 0, reason: "تغيير مقر الإقامة", decision: "مع الموافقة", comments: "" })
+                        set_eleve({ uid: Number(uid), nom_prenom: "", nom_pere: "", date_naissance: "", level: "", prev_ecole: "", prev_ecole_id: 0, Del1: "", Del1_id: 0, next_ecole: "", next_ecole_id: 0, reason: "تغيير مقر الإقامة", decision: "مع الموافقة", comments: "" })
 
                         handle_focus("manual");
                         return
@@ -33,7 +34,7 @@ const IdInput_Component = ({ set_eleve }: { set_eleve: (eleve: Eleve) => void })
                 }
 
                 const jsonData = await response.json()
-                set_eleve({ ...jsonData, level: "", Del1: "", next_ecole: "", next_ecole_id: 0, reason: "تغيير مقر الإقامة", decision: "مع الموافقة", comments: "" })
+                set_eleve({ ...jsonData, level: "", Del1: "", Del1_id: 0, next_ecole: "", next_ecole_id: 0, reason: "تغيير مقر الإقامة", decision: "مع الموافقة", comments: "" })
 
                 set_loading(false);
                 handle_focus("");
@@ -120,7 +121,7 @@ const IdInput_Component = ({ set_eleve }: { set_eleve: (eleve: Eleve) => void })
     )
 }
 
-export default IdInput_Component;
+export default UidInput_Component;
 
 
 const LoadingIcon = () => {

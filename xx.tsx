@@ -1,14 +1,17 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import getUrl from './useContext/getUrl';
-import LoadingIcon from './LoadingIcon';
+import LoadingIcon from './lib/LoadingIcon';
 
 type eleve = [uid: string, nom_prenom: string, nom_pere: string, date_naissance: string, ecole__ministre_school_name: string]
 const empty_elv: eleve = ["", "", "", "", "",]
 
-const fetch_elv = () => {
 
+const isAdmin = getUrl() === 'http://localhost:80/api/';
+
+
+const fetch_elv = () => {
   const nom_elve_input = document.getElementById('nom_eleve') as HTMLInputElement;
   const date_naissance_input = document.getElementById('date-naissance') as HTMLInputElement;
 
@@ -16,9 +19,12 @@ const fetch_elv = () => {
   const date_naissance = date_naissance_input.value
 
   const url = getUrl();
-  if (date_naissance !== "") return axios.get(url + "retrieve/searchElv/bydate/" + date_naissance)
 
-  if (nom_elve !== "") return axios.get(url + "retrieve/searchElv/byname/" + nom_elve)
+  if (isAdmin) return axios.get(url + "Tunis/searchElv/" + nom_elve)
+
+  if (date_naissance !== "") return axios.get(url + "formulaire/searchElv/bydate/" + date_naissance)
+
+  if (nom_elve !== "") return axios.get(url + "formulaire/searchElv/byname/" + nom_elve)
 }
 
 
@@ -38,7 +44,7 @@ const set_name_null = () => {
 const XX = () => {
 
 
-  const { isLoading, data, isError, isFetching, refetch } = useQuery('search_elv', fetch_elv, { enabled: false, cacheTime: 0, onSuccess: () => { set_current_page(1) } })
+  const { data, isFetching, refetch } = useQuery('search_elv', fetch_elv, { enabled: false, cacheTime: 0, onSuccess: () => { set_current_page(1) } })
 
   let table_totalpage_numbers = 0;
   const [current_page, set_current_page] = useState(0);
@@ -55,12 +61,13 @@ const XX = () => {
   }
 
 
+
   return (
-    <div className=' w-full h-full bg-sky-100'>
+    <div className=' w-full h-full bg-transparent'>
 
 
-      <div className=" px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto w-11/12 h-full">
-        <div className="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900 h-full flex flex-col items-center ">
+      <div className=" px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto w-11/12 h-full ">
+        <div className="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900 h-full flex flex-col items-center  shadow-gray-400">
           <div className="flex flex-col bg-white border border-t-4 w-9/12  border-t-blue-600 border-b-4  border-b-blue-600 shadow-sm rounded-xl  h-24">
 
             {/* search_card */}
@@ -101,7 +108,11 @@ const XX = () => {
                   <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                 </svg>
               </button>
-
+              {isAdmin && <button type="button" className="flex justify-center items-center my-2  w-8 h-8 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none" onClick={() => refetch()} disabled={isFetching}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5 font-bold">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+              </button>}
 
             </div>
           </div>
@@ -112,7 +123,7 @@ const XX = () => {
               <div className="p-1.5 min-w-full inline-block align-middle">
                 {isFetching &&
                   <div className=' w-full flex items-center justify-center h-80'>
-                    <LoadingIcon heigth={40} width={40} />
+                    <LoadingIcon className='' /> # ~
                   </div >
                 }
                 {elvs_array && !isFetching && <div className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
@@ -128,10 +139,18 @@ const XX = () => {
 
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
 
-                      {
+                      {elvs_array.length !== 0 ?
                         elvs_array.map((eleve, index) => {
                           return index + 1 > (current_page - 1) * number_of_rows_each_pagination && index + 1 <= current_page * number_of_rows_each_pagination ? <TableRow key={eleve[0]} eleve={eleve} /> : null
                         })
+                        :
+                        <tr>
+                          <td colSpan={5}>
+                            <div className=' flex  justify-center text-lg py-8'>
+                              لم يتم العثور على أي تلميذ
+                            </div>
+                          </td>
+                        </tr>
                       }
 
                       {current_page === table_totalpage_numbers && elvs_array.length < table_totalpage_numbers * number_of_rows_each_pagination && [...Array(number_of_rows_each_pagination * table_totalpage_numbers - elvs_array.length)].map((_, index) => (
@@ -143,7 +162,6 @@ const XX = () => {
 
 
                   {/* pagination */}
-
 
                   <Pagination_Display table_totalpage_numbers={table_totalpage_numbers} change_pagination_number={change_pagination_number} />
 

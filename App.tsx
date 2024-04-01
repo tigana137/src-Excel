@@ -1,29 +1,20 @@
 import { createContext, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, } from 'react-router-dom';
-import roman_1 from "./img/roman_numbers/roman-numeral-1.svg"
-import roman_2 from "./img/roman_numbers/roman-numeral-2.svg"
-import roman_3 from "./img/roman_numbers/roman-numeral-3.svg"
-import roman_4 from "./img/roman_numbers/roman-numeral-4.svg"
-import roman_5 from "./img/roman_numbers/roman-numeral-5.svg"
-import roman_6 from "./img/roman_numbers/roman-numeral-6.svg"
-import excel_icon from "./img/excel_icon.png"
-import search_icon from "./img/search_icon.png"
-import historique_icon from "./img/historique_icon.png"
-import premiere_no from "./img/premiere_no.png"
-import total from "./img/total.png"
 import './index.css'
 
-import Excel from './Components/Excel';
+import Excel from './Components/Excel/Excel';
 import Logins2 from './Components/Logins2';
-import Sidebar from './Components/Sidebar';
-import MainTable from './Components/MainTable';
-import LevelComp from './Components/LevelComp';
+import Sidebar from './Components/SideBar/Sidebar';
+import MainTable from './Components/MainTable/MainTable';
 import ErrorConComponent from './Components/ErrorConComponent';
 
 import "preline/preline";
 import { IStaticMethods } from "preline/preline";
 import XX from './xx';
-import { CityDataContext2Provider } from './useContext/CityDataContext';
+import { CityDataContextProvider } from './useContext/CityDataContext';
+import LevelComp from './Components/LevelComp/LevelComp';
+import { MainTableSVG, SmartExcelSVG, historique_iconSVG, roman_1SVG, roman_2SVG, roman_3SVG, roman_4SVG, roman_5SVG, roman_6SVG, searchSVG } from './lib/Svgs';
+import EditSchoolNumbers from "./Components/LevelComp/Components/EditSchoolNumbers";
 
 
 declare global {
@@ -37,7 +28,7 @@ export type pageProp = {
   name: string;
   path: string;
   element: JSX.Element;
-  icon: string;
+  icon: ({ active }: { active: boolean; }) => JSX.Element;
 }
 
 export const pages: pageProp[] = [
@@ -45,73 +36,73 @@ export const pages: pageProp[] = [
     name: "احصاء جميع المدارس",
     path: '/',
     element: <MainTable />,
-    icon: total
+    icon: MainTableSVG
   },
   {
     name: "حركة السنوات الأولى",
-    path: 'level/premiere',
+    path: '/level/premiere',
     element: <LevelComp />,
-    icon: roman_1
+    icon: roman_1SVG
   },
   {
     name: "حركة السنوات الثانية",
-    path: 'level/deuxieme',
+    path: '/level/deuxieme',
     element: <LevelComp />,
-    icon: roman_2
+    icon: roman_2SVG
   },
   {
     name: "حركة السنوات الثالثة",
-    path: 'level/troisieme',
+    path: '/level/troisieme',
     element: <LevelComp />,
-    icon: roman_3
+    icon: roman_3SVG
   },
   {
     name: "حركة السنوات الرابعة",
-    path: 'level/quatrieme',
+    path: '/level/quatrieme',
     element: <LevelComp />,
-    icon: roman_4
+    icon: roman_4SVG
   },
   {
     name: "حركة السنوات الخامسة",
-    path: 'level/cinquieme',
+    path: '/level/cinquieme',
     element: <LevelComp />,
-    icon: roman_5
+    icon: roman_5SVG
   },
   {
     name: "حركة السنوات السادسة",
-    path: 'level/sixieme',
+    path: '/level/sixieme',
     element: <LevelComp />,
-    icon: roman_6
+    icon: roman_6SVG
   },
   {
     name: "Smart Excel",
-    path: 'SmartExcel',
+    path: '/SmartExcel',
     element: <></>,
-    icon: excel_icon
+    icon: SmartExcelSVG
   },
   {
     name: "اعتراضات السنة الأولى",
-    path: '/',
+    path: '/qsd',
     element: <></>,
-    icon: premiere_no
+    icon: SmartExcelSVG
   },
   {
     name: "search",
     path: '/search',
     element: <XX />,
-    icon: search_icon
+    icon: searchSVG
   },
   {
     name: "historique",
-    path: '/',
+    path: '/xwc',
     element: <></>,
-    icon: historique_icon
+    icon: historique_iconSVG
   },
 
 
 ]
 
-export interface ParamsProp {
+export type ParamsProp = {
   sid: number,
   school_name: string,
   saisieprenom: string,
@@ -165,17 +156,6 @@ export const transferElvContext = createContext<Function>(() => { })
 export const cityIdContext = createContext<number>(0)
 
 
-
-
-
-
-
-'http://localhost:80/'
-
-
-
-
-
 function App() {
   //const [params, set_params] = useState<ParamsProp>({ sid: 842920, school_name: "", saisieprenom: "", saisienom: "", saisiepasswd: "", login: "", mp: '', ecole_url: "" });
   const [Logins_isVisible, set_InsertSid] = useState(false);
@@ -183,8 +163,6 @@ function App() {
 
 
   const [serverError, setServerError] = useState(false);
-
-
 
 
 
@@ -198,31 +176,28 @@ function App() {
 
   return (
     <>
-      <div className='h-screen w-screen flex bg-indigo-200/75' dir="rtl">
+      <div className='h-screen w-screen flex bg-slate-300' dir="rtl">
 
         <Router>
 
           <Sidebar />
 
-          <CityDataContext2Provider>
+          <CityDataContextProvider>
+            <CityDataContextProvider>
 
-            <Routes>
-              <Route path="/" element={<MainTable />} />
-              <Route path='level/:level' element={<LevelComp />} />
-            </Routes>
+              <Routes >
+                <Route path="/" element={<MainTable />} />
+                <Route path='level/:level' element={<LevelComp />} >
+                  <Route path='edit/:sid' element={<EditSchoolNumbers />} />
+                </Route>
+                <Route path="SmartExcel" element={<Excel setServerError={setServerError} />} />
+                <Route path="search" element={<XX />} />
+              </Routes>
 
-            <Routes>
-
-              <Route path="SmartExcel" element={<Excel setServerError={setServerError} />} />
-            </Routes>
-
-          </CityDataContext2Provider>
+            </CityDataContextProvider>
+          </CityDataContextProvider>
 
 
-          <Routes>
-
-            <Route path="search" element={<XX />} />
-          </Routes>
         </Router>
 
 

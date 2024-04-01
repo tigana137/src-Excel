@@ -18,3 +18,18 @@
   /* Tailwind color gray-600 */
 }
 
+@keyframes expandHeight {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+
+  to {
+    height: auto;
+    opacity: 1;
+  }
+}
+
+.expandHeight {
+  animation: expandHeight 0.3s ease-in-out;
+}

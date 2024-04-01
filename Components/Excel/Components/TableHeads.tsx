@@ -6,7 +6,7 @@ const TableHeads = () => {
 
     return (
         <>
-            <thead dir="rtl" className="sticky top-0 z-10  h-11  bg-sky-400 outline outline-1 outline-black -outline-offset-1 ">
+            <thead dir="rtl" className="sticky top-0 z-10  h-11  bg-blue-600 outline outline-1 outline-black -outline-offset-1 ">
                 <tr className=" ">
                     <TableHead title={"     "} />
                     <TableHead title={"ع/ر"} />

@@ -1,18 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import VirginTableRow from "./VirginTableRow";
-import ErrorConComponent from "./ErrorConComponent";
-import DowloadCom from "./Excel/Components/DowloadCom";
-import { Usetransfer_elv } from "../useContext/UseHooks";
-import TableHeads from "./Excel/Components/TableHeads";
-import { cancel_elv_db, transfer_elv_db } from "./Excel/functions/cancel_elv_db";
-import { handle_focus } from "./Excel/functions/handle_focus";
+import VirginTableRow from "./Components/VirginTableRow";
+import ErrorConComponent from "../ErrorConComponent";
+import DowloadCom from "./Components/DowloadCom";
+import TableHeads from "./Components/TableHeads";
+import { cancel_elv_db, transfer_elv_db } from "./functions/cancel_elv_db";
+import { handle_focus } from "./functions/handle_focus";
 
 import axios from "axios";
-import IdInput_Component from "./Excel/Components/IdInput_Component";
-import getUrl from "../useContext/getUrl";
-import ElvToTransfer from "./Excel/Components/EditElv";
-import DownloadExcelCom from "./Excel/Components/DownloadExcelCom";
-import useCityDataContext from "../useContext/CityDataContext";
+import getUrl from "../../useContext/getUrl";
+import ElvToTransfer from "./Components/EditElv/ElvToTransfer";
+import DownloadExcelCom from "./Components/DownloadExcelCom";
+import useCityDataContext from "../../useContext/CityDataContext";
+import UidInput_Component from "./Components/UidInput_Component";
 
 
 
@@ -25,6 +24,7 @@ export interface Eleve {
     prev_ecole: string;
     prev_ecole_id: number;
     Del1: string;
+    Del1_id: number;
     next_ecole: string;
     next_ecole_id: number;
     reason?: string;
@@ -32,12 +32,12 @@ export interface Eleve {
     comments?: string;
 }
 
-const empty_elv: Eleve = { nom_prenom: '', nom_pere: '', date_naissance: '', decision: '', Del1: '', prev_ecole: '', prev_ecole_id: 0, next_ecole_id: 0, level: '', uid: 0, reason: '', comments: '', next_ecole: '' }
+const empty_elv: Eleve = { nom_prenom: '', nom_pere: '', date_naissance: '', decision: '', Del1: '', Del1_id: 0, prev_ecole: '', prev_ecole_id: 0, next_ecole_id: 0, level: '', uid: 0, reason: '', comments: '', next_ecole: '' }
 
 
 const Excel = ({ setServerError }: { setServerError: Function }) => {
-    const url = getUrl();
-    const { transfer_elv } = useCityDataContext();
+
+    const { refetchLevelStat } = useCityDataContext();
     const [eleves, set_eleves] = useState<Eleve[]>([]);
     const [eleve, set_eleve] = useState<Eleve>(empty_elv)
     const [ErrorConnection, set_ErrorConnection] = useState(false);
@@ -76,8 +76,6 @@ const Excel = ({ setServerError }: { setServerError: Function }) => {
     }, [])
 
 
-
-
     const change_elv = (eleve: Eleve) => {
         set_eleve(eleve)
     }
@@ -85,6 +83,7 @@ const Excel = ({ setServerError }: { setServerError: Function }) => {
 
 
     const fetchElvsRows = async (page: number) => {
+        const url = getUrl();
         set_loadingfetchingRows((prev) => !prev)
         const data = await axios({
             method: 'GET',
@@ -103,14 +102,14 @@ const Excel = ({ setServerError }: { setServerError: Function }) => {
 
 
     const delRow = (index: number, eleve: Eleve) => {
+        const url = getUrl();
         cancel_elv_db(eleve, url); // ~ zid condition ken rj3 false raou l database mouneka 
         const Newelvs = [...eleves];
         Newelvs.splice(index, 1);
         set_eleves(Newelvs);
-        transfer_elv(eleve.prev_ecole_id, eleve.next_ecole_id, eleve.level, true)
+        refetchLevelStat()
         setRowsNumber(prev => prev - 1)
     }
-
 
 
     const TableRow = ({ eleve, hash }: { eleve: Eleve, hash: number }) => {
@@ -196,13 +195,11 @@ const Excel = ({ setServerError }: { setServerError: Function }) => {
     }
 
 
-
-
     const addElv = async (eleve: Eleve) => {
-
+        const url = getUrl();
         const response = await transfer_elv_db(eleve, url); // zid condition ken rj3 false raou l database mouneka 
         if (response === true) {
-            transfer_elv(eleve.prev_ecole_id, eleve.next_ecole_id, eleve.level, false)
+            refetchLevelStat()
             setRowsNumber(prev => prev + 1)
             await set_eleves(prev_eleves => [eleve, ...prev_eleves])
             set_eleve(empty_elv)
@@ -214,7 +211,7 @@ const Excel = ({ setServerError }: { setServerError: Function }) => {
 
 
     const downloadexcel = async () => {
-
+        const url = getUrl();
         const SendData = async () => {
             async function downloadExcelFile() {
                 // Replace 'your-django-url' with the actual URL of your Django view
@@ -258,9 +255,6 @@ const Excel = ({ setServerError }: { setServerError: Function }) => {
     }
 
 
-
-
-
     const TableBody = () => {
 
         return (
@@ -288,37 +282,38 @@ const Excel = ({ setServerError }: { setServerError: Function }) => {
     }
 
 
-    // console.log('t3 l excel', eleve)
-
     return (
 
         <>
-            <div className="flex justify-center w-full">
-                <div className="flex flex-col items-center mt-16  max-h-screen  " >
+            <div className="flex justify-center w-full ">
+                <div className="flex flex-col items-center mt-12  max-h-screen w-full  " >
 
 
 
                     <DownloadExcelCom downloadexcel={downloadexcel} />
 
-                    <IdInput_Component set_eleve={change_elv} />
+                    <UidInput_Component set_eleve={change_elv} />
 
                     <div className=" h-14" />
 
 
                     <ElvToTransfer eleve={eleve} addElv={addElv} />
 
-                  
+
+                    <div className=" h-20" />
+
 
 
                     <ScrollbarDiv>
 
-                        <table className="items-center  bg-transparent border  w-full" dir="rtl">
+                        <table className="items-center  bg-transparent border  h-fit w-full pr-5 " dir="rtl">
 
                             <TableHeads />
 
                             <TableBody />
 
                         </table>
+
                     </ScrollbarDiv>
 
 
@@ -337,7 +332,7 @@ export default Excel;
 const ScrollbarDiv = ({ children }: { children: React.ReactNode }) => {
 
     return (
-        <div className="w-full overflow-y-scroll  
+        <div className="w-full overflow-y-scroll   pr-5 h-fit
         [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full
         [&::-webkit-scrollbar-track]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full
         [&::-webkit-scrollbar-thumb]:bg-gray-600 dark:[&::-webkit-scrollbar-track]:bg-slate-700
