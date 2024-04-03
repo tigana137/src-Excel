@@ -22,9 +22,9 @@ const fetch_elv = () => {
 
   if (isAdmin) return axios.get(url + "Tunis/searchElv/" + nom_elve)
 
-  if (date_naissance !== "") return axios.get(url + "formulaire/searchElv/bydate/" + date_naissance)
+  if (date_naissance !== "") return axios.get(url + "retrieve/searchElv/bydate/" + date_naissance)
 
-  if (nom_elve !== "") return axios.get(url + "formulaire/searchElv/byname/" + nom_elve)
+  if (nom_elve !== "") return axios.get(url + "retrieve/searchElv/byname/" + nom_elve)
 }
 
 
