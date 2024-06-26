@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 
 export default function Sidebar() {
 
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(true);
     const [active, set_active] = useState(0);
     const set_active_funct = (index: number) => {
         set_active(index)
@@ -24,7 +24,7 @@ export default function Sidebar() {
     }, [])
 
     return (
-        <div className=" bg-transparent shadow-xl shadow-transparent  ">
+        <div className=" bg-transparent shadow-xl shadow-transparent   ">
 
 
             <aside className="  h-screen w-fit top-0 z-50 " dir="rtl">

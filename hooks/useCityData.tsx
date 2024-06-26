@@ -7,7 +7,7 @@ import getUrl from "../useContext/getUrl";
 const fetch_Del1s = () => {
     const url = getUrl();
 
-    return axios.get(url + 'retrieve/getDel1s');
+    return axios.get(url + 'retrieve/getDel1');
 }
 
 const fetch_ecoles = () => {

@@ -8,6 +8,7 @@ export default function getUrl() {
 
 
     url = 'https://tigana1.pythonanywhere.com/api/'
-
+    // const ngrok = "84d8-102-159-155-193.ngrok-free.app"
+    // url = "https://" + ngrok + "/api/"
     return url
 }

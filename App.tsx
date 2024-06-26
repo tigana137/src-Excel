@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, } from 'react-router-dom';
 import './index.css'
 
@@ -10,11 +10,15 @@ import ErrorConComponent from './Components/ErrorConComponent';
 
 import "preline/preline";
 import { IStaticMethods } from "preline/preline";
-import XX from './xx';
+import Search from './Components/Search/Search';
 import { CityDataContextProvider } from './useContext/CityDataContext';
 import LevelComp from './Components/LevelComp/LevelComp';
 import { MainTableSVG, SmartExcelSVG, historique_iconSVG, roman_1SVG, roman_2SVG, roman_3SVG, roman_4SVG, roman_5SVG, roman_6SVG, searchSVG } from './lib/Svgs';
 import EditSchoolNumbers from "./Components/LevelComp/Components/EditSchoolNumbers";
+import QuillComponent from './Components/Quill/Quill';
+import Historique from './Components/Historique/Historique';
+import axios from 'axios';
+import getUrl from './useContext/getUrl';
 
 
 declare global {
@@ -87,14 +91,14 @@ export const pages: pageProp[] = [
     icon: SmartExcelSVG
   },
   {
-    name: "search",
+    name: "البحث عن تلميذ",
     path: '/search',
-    element: <XX />,
+    element: <Search />,
     icon: searchSVG
   },
   {
-    name: "historique",
-    path: '/xwc',
+    name: "الأرشيف",
+    path: '/historique',
     element: <></>,
     icon: historique_iconSVG
   },
@@ -158,25 +162,29 @@ export const cityIdContext = createContext<number>(0)
 
 function App() {
   //const [params, set_params] = useState<ParamsProp>({ sid: 842920, school_name: "", saisieprenom: "", saisienom: "", saisiepasswd: "", login: "", mp: '', ecole_url: "" });
-  const [Logins_isVisible, set_InsertSid] = useState(false);
 
 
 
   const [serverError, setServerError] = useState(false);
 
+  useEffect(() => {
+    const url = getUrl();
+    const ff = async () => {
+
+      const response = await axios.get(url + "x/testSignal/");
+      if (response.data) setServerError(true)
+    }
+
+    ff()
+  }, [])
 
 
-
-
-  const swwitch = () => {
-    set_InsertSid(false);
-  }
 
 
 
   return (
     <>
-      <div className='h-screen w-screen flex bg-slate-300' dir="rtl">
+      <div className='h-screen w-screen flex bg-slate-300 ' dir="rtl">
 
         <Router>
 
@@ -191,7 +199,9 @@ function App() {
                   <Route path='edit/:sid' element={<EditSchoolNumbers />} />
                 </Route>
                 <Route path="SmartExcel" element={<Excel setServerError={setServerError} />} />
-                <Route path="search" element={<XX />} />
+                <Route path="search" element={<Search />} />
+                <Route path="historique" element={<Historique />} />
+
               </Routes>
 
             </CityDataContextProvider>
@@ -201,11 +211,11 @@ function App() {
         </Router>
 
 
-        <SwitchContext.Provider value={swwitch}>
+        {/* <SwitchContext.Provider value={swwitch}>
 
           {Logins_isVisible && <Logins2 />}
 
-        </SwitchContext.Provider>
+        </SwitchContext.Provider> */}
       </div >
       {serverError && <ErrorConComponent />}
     </>

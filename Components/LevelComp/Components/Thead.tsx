@@ -30,7 +30,7 @@ const Thead = () => {
                         الزيادة/النقصان
                     </th>
                     <th scope="col" className="px-6 py-3 text-left w-fit">
-                        تغيير المعطيات
+                    تحيين المعطيات
                     </th>
 
                 </tr>

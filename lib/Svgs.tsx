@@ -269,9 +269,9 @@ export const searchSVG = ({ active }: { active: boolean }) => {
     return (
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className={twMerge(" w-10 h-10 p-0 m-0  text-white fill-white", active && "fill-transparent")}>
             <g id="SVGRepo_iconCarrier" >
-                <path className={"" + (active && "stroke-white")} d="M3 12C3 4.5885 4.5885 3 12 3C19.4115 3 21 4.5885 21 12C21 19.4115 19.4115 21 12 21C4.5885 21 3 19.4115 3 12Z" stroke="#323232" stroke-width="1.656"></path>
-                <path className={"" + (active && "stroke-white")} d="M14 14L16 16" stroke="#323232" stroke-width="1.656" stroke-linecap="round" stroke-linejoin="round"></path>
-                <path className={"" + (active && "stroke-white")} d="M15 11.5C15 13.433 13.433 15 11.5 15C9.567 15 8 13.433 8 11.5C8 9.567 9.567 8 11.5 8C13.433 8 15 9.567 15 11.5Z" stroke="#323232" stroke-width="1.656"></path>
+                <path className={"" + (active && "stroke-white")} d="M3 12C3 4.5885 4.5885 3 12 3C19.4115 3 21 4.5885 21 12C21 19.4115 19.4115 21 12 21C4.5885 21 3 19.4115 3 12Z" stroke="#323232" strokeWidth="1.656"></path>
+                <path className={"" + (active && "stroke-white")} d="M14 14L16 16" stroke="#323232" strokeWidth="1.656" strokeLinecap="round" strokeLinejoin="round"></path>
+                <path className={"" + (active && "stroke-white")} d="M15 11.5C15 13.433 13.433 15 11.5 15C9.567 15 8 13.433 8 11.5C8 9.567 9.567 8 11.5 8C13.433 8 15 9.567 15 11.5Z" stroke="#323232" strokeWidth="1.656"></path>
             </g>
         </svg>
     )
@@ -282,7 +282,18 @@ export const historique_iconSVG = ({ active }: { active: boolean }) => {
 
     return (
 
-        <svg className={twMerge(" w-10 h-10 p-0 m-0  fill-black", active && "fill-white")} viewBox="0 0 48 48" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style>.cls-1{"fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;"}</style></defs><path className="cls-1" d="M40.5,5.5H7.5a2,2,0,0,0-2,2v33a2,2,0,0,0,2,2h33a2,2,0,0,0,2-2V7.5A2,2,0,0,0,40.5,5.5Z"></path><line className="cls-1" x1="14.95" y1="10.5" x2="14.95" y2="37.5"></line><line className="cls-1" x1="33.05" y1="10.5" x2="33.05" y2="37.5"></line><line className="cls-1" x1="14.95" y1="23.95" x2="33.05" y2="23.95"></line></g></svg>
+        <svg fill="#000000" version="1.1" id="Capa_1" className={twMerge(" w-10 h-10 p-0 m-0  text-black fill-bltext-black", active && "fill-white")} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 31.289 31.288" xmlSpace="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+                <g>
+                    <g>
+                        <path
+                            d="M28.327,13.357v-1.735l-0.25-0.099c-0.079-0.031-1.804-0.698-4.188-0.808v0.792c1.729,0.085,3.104,0.483,3.646,0.663 v16.084c-1.117-0.449-2.403-0.676-3.827-0.676c-3.489,0-6.812,1.338-7.812,1.777v-6.39l0.465,0.513v-4.58h-1.191v4.58l0.465-0.513 v6.398c-1.013-0.419-4.5-1.745-7.993-1.745c-1.381,0-2.603,0.212-3.645,0.63v-16.08c0.608-0.203,2.264-0.682,4.305-0.682 c0.146,0,0.288,0.012,0.434,0.017v-0.789c-0.146-0.004-0.288-0.017-0.434-0.017c-2.721,0-4.76,0.792-4.844,0.825l-0.25,0.099 v1.607c-0.823,0.154-1.335,0.431-1.335,0.88c0,2.342,0,16.562,0,16.562h12.196c0.422,0.376,1.038,0.617,1.729,0.617 c0.691,0,1.308-0.24,1.729-0.617h11.889c0,0,0-15.739,0-16.562C29.416,13.742,29.001,13.504,28.327,13.357z"></path>
+                        <polygon points="24.505,5.806 7.774,5.806 7.774,6.861 9.411,6.861 9.411,15.41 11.047,15.41 11.047,6.861 13.159,6.861 13.159,15.41 14.794,15.41 14.794,6.861 17.539,6.861 17.539,15.41 19.175,15.41 19.175,6.861 21.286,6.861 21.286,15.41 22.921,15.41 22.921,6.861 24.505,6.861 "></polygon>
+                        <polygon points="16.273,0 6.932,5.317 25.455,5.317 "></polygon>
+                        <polygon points="24.505,15.727 23.845,15.727 8.702,15.727 7.934,15.727 7.934,16.939 7.353,16.939 7.353,18.155 25.193,18.155 25.193,16.939 24.505,16.939 24.505,16.333 "></polygon>
+                    </g>
+                </g> </g></svg>
     )
 }
 

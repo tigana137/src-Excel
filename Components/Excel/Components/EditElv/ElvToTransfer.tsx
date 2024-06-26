@@ -8,6 +8,7 @@ import { handle_MouseDown_Del1, handle_MouseDown_decision, handle_MouseDown_reas
 import Thead from "./components/Thead";
 import useCityDataContext from "../../../../useContext/CityDataContext";
 import axios from "axios";
+import CapacityWarning from "./components/CapacityWarning";
 
 
 
@@ -16,8 +17,7 @@ export const decisions = ["مع الموافقة", "استكمال الملف"]
 
 const Ecoles_scrollbar = ` [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full overflow-y-scroll  
 [&::-webkit-scrollbar-track]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full
-[&::-webkit-scrollbar-thumb]:bg-gray-600 dark:[&::-webkit-scrollbar-track]:bg-slate-700
-dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 pl-0.5 `
+[&::-webkit-scrollbar-thumb]:bg-gray-600 `
 
 const TableTitles = [
 
@@ -35,6 +35,21 @@ const TableTitles = [
     "تسجيل"
 ];
 
+export type warningProp = {
+    kethefa: number;
+    name: string;
+    sid: number;
+    level: number;
+    is_comming: boolean;
+}
+
+const msg: warningProp = {
+    kethefa: 35,
+    name: "سوسة المدينة",
+    sid: 842401,
+    level: 6,
+    is_comming: true
+}
 
 const ElvToTransfer = ({ eleve: initial_elv, addElv }: { eleve: Eleve, addElv: (eleve: Eleve) => Promise<void> }) => {
 
@@ -45,11 +60,12 @@ const ElvToTransfer = ({ eleve: initial_elv, addElv }: { eleve: Eleve, addElv: (
 
     const { Del1Data, EcolesData } = useCityDataContext();
 
-    const [warning_elv_kethefa, set_warning_elv_kethefa] = useState(false)
+    const [warning_elv_kethefa, set_warning_elv_kethefa] = useState<warningProp | null>(msg)
 
     typeof error_required_fields === 'boolean' &&
+    
         useEffect(() => {
-            warning_elv_kethefa && set_warning_elv_kethefa(false)
+            // warning_elv_kethefa && set_warning_elv_kethefa(null)
             set_eleve(initial_elv)
         }, [initial_elv])
 
@@ -76,7 +92,7 @@ const ElvToTransfer = ({ eleve: initial_elv, addElv }: { eleve: Eleve, addElv: (
         if (Number(eleve.level) && eleve.prev_ecole_id !== 0) {
             console.log('t5l prev')
             check_nbr_elv_post_transfer(false)
-          
+
         }
 
 
@@ -282,6 +298,10 @@ const ElvToTransfer = ({ eleve: initial_elv, addElv }: { eleve: Eleve, addElv: (
     }
 
 
+    const close_warning_component = () => {
+
+        set_warning_elv_kethefa(null)
+    }
     const verif_addElv = () => {
         if (eleve.nom_prenom === "" || eleve.next_ecole === "" || eleve.level === "") {
             set_error_required_fields(true)
@@ -290,6 +310,7 @@ const ElvToTransfer = ({ eleve: initial_elv, addElv }: { eleve: Eleve, addElv: (
         set_error_required_fields(false)
         addElv(eleve)
     }
+
 
 
 
@@ -436,7 +457,7 @@ const ElvToTransfer = ({ eleve: initial_elv, addElv }: { eleve: Eleve, addElv: (
                                                 //          <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                                                 //      </svg>
                                             }
-                                            <img src={check_img} className="w-6 h-6 text-gray-800 dark:text-white" />
+                                            <img src={check_img} className="w-6 h-6 text-gray-800 " />
                                         </button>
                                     </td>
 
@@ -447,26 +468,14 @@ const ElvToTransfer = ({ eleve: initial_elv, addElv }: { eleve: Eleve, addElv: (
                         </table>
                     </div>
                 </div>
-                <div className="flex items-center p-4 mb-4 text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 w-1/2" role="alert">
 
-                    {/* I svg */}
-                    <svg className="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                    </svg>
+                {/* Warning if elvs to transfer will excced the capacity of the new school */}
+                <div className="h-14  flex justify-center mt-4">
 
-                    <div className="ms-3 text-sm font-medium">
+                    {warning_elv_kethefa && <CapacityWarning warning_msg={warning_elv_kethefa} close_warning_component={close_warning_component} />}
 
-                        xc
-                    </div>
-
-                    {/* X button */}
-                    <button type="button" className="ms-auto -mx-1.5 -my-1.5 bg-yellow-50 text-yellow-500 rounded-lg focus:ring-2 focus:ring-yellow-400 p-1.5 hover:bg-yellow-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-yellow-300 dark:hover:bg-gray-700" data-dismiss-target="#alert-4" aria-label="Close">
-                        <span className="sr-only">Close</span>
-                        <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                    </button>
                 </div>
+
 
             </div>
             {/* <div className="h-24" /> */}

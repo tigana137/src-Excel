@@ -116,7 +116,7 @@ const Logins2 = () => {
                 <div className="absolute top-2/4 left-2/4 w-full max-w-[24rem] -translate-y-2/4 -translate-x-2/4  ">
                     <div className=" flex justify-center">
 
-                        <div className="aboslute flex justify-center items-center inset-0 translate-y-20 w-11/12  h-28 bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-600 bg shadow-xl rounded-xl">
+                        <div className="aboslute flex justify-center items-center inset-0 translate-y-20 w-11/12  h-28 bg-gradient-to-r from-blue-700 via-blue-600 to-blue-600 bg shadow-xl rounded-xl">
                             <div className="text-white text-center text-4xl font-semibold pr-5">Smart Sheet</div>
                             <img src={img2} className=" w-12 h-12 " />
                         </div>
@@ -125,16 +125,16 @@ const Logins2 = () => {
                     <div className="max-w-sm p-6 pt-28 bg-white border border-gray-200 rounded-lg shadow-xl dark:bg-gray-800 dark:border-gray-700 "
                         style={{ height: "497px" }}>
 
-                        <div className="items-center border-b focus-within:border-teal-500 py-2 mb-7 mt-2">
+                        <div className="items-center border-b focus-within:border-blue-500 py-2 mb-7 mt-2">
                             <input autoComplete="off" className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="اسم المستعمل" name="nom" />
                         </div>
 
-                        <div className="items-center border-b  py-2 focus-within:border-teal-500 mb-7 ">
+                        <div className="items-center border-b  py-2 focus-within:border-blue-500 mb-7 ">
                             <input autoComplete="off" className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="كلمة السرّ" name="mdp" />
                         </div>
 
                         <div className="flex mb-20 py-2 " >
-                            <div className="items-center border-b focus-within:border-teal-500 w-1/2 mr-4 ">
+                            <div className="items-center border-b focus-within:border-blue-500 w-1/2 mr-4 ">
                                 <input autoComplete="off" className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="الرمز" name="securite" onKeyUp={handle_input_id} />
                             </div>
                             {imageData && <img className=" " id="imageElement" src="" alt="Image" />}
@@ -142,7 +142,7 @@ const Logins2 = () => {
 
                         <div className=" flex w-full  justify-center ">
 
-                            <button id="Submit" type="button" className="text-white bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-600  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-500 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-60 h-12"
+                            <button id="Submit" type="button" className="text-white bg-gradient-to-r from-blue-700 via-blue-600 to-blue-600  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-500 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-60 h-12"
                                 onClick={handle_click}>
                                 {!Enable_buttons ?
                                     <div className='ml-2 '>

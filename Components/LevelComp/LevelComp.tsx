@@ -68,23 +68,23 @@ const LevelComp = () => {
 
             <div className="flex flex-col w-full shadow-md  m-12 bg-white p-5">
 
-                <div className="flex items-center justify-between space-y-4 md:space-y-0 py-4 p-5 bg-white dark:bg-gray-900">
+                <div className="flex items-center justify-between space-y-4 md:space-y-0 py-4 p-5 bg-white ">
                     <label className="sr-only">Search</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                            <svg className="w-4 h-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                             </svg>
                         </div>
-                        <input type="text" id="table-search-users" className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users" />
+                        <input type="text" id="table-search-users" className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 " placeholder="Search for users" />
                     </div>
 
                     <div>
-                        <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction" className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
+                        <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction" className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5" type="button">
                             <span className="sr-only">Action button</span>
                             Action
                             <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                             </svg>
                         </button>
 
@@ -98,7 +98,7 @@ const LevelComp = () => {
                         return (
 
                             <button key={cityID} onClick={() => set_del1(Number(cityID))}
-                                className={twMerge("transition-colors border rounded-xl   text-gray-900 bg-white  mb-1   py-1.5 px-1.5  mx-1    text-sm  font-semibold whitespace-nowrap dark:text-white",
+                                className={twMerge("transition-colors border rounded-xl   text-gray-900 bg-white  mb-1   py-1.5 px-1.5  mx-1    text-sm  font-semibold whitespace-nowrap ",
                                     Number(cityID) === del1_picked && "bg-blue-600 text-white hover:bg-blue-600",
                                     Number(cityID) !== del1_picked && "hover:bg-blue-300"
                                 )
@@ -119,13 +119,13 @@ const LevelComp = () => {
                 <div className="relative   flex-grow  
                         overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full  
                         [&::-webkit-scrollbar-track]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full
-                        [&::-webkit-scrollbar-thumb]:bg-gray-600 dark:[&::-webkit-scrollbar-track]:bg-slate-700
-                        dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 
+                        [&::-webkit-scrollbar-thumb]:bg-gray-600 
+                       
                      
                         ">
 
 
-                    <table className=" w-[calc(100%-1rem)] text-sm text-left  rtl:text-right text-gray-500 dark:text-gray-400 select-none border-none ">
+                    <table className=" w-[calc(100%-1rem)] text-sm text-left  rtl:text-right text-gray-500 select-none border-none ">
                         <Thead />
 
                         <tbody>
@@ -140,7 +140,7 @@ const LevelComp = () => {
 
                                 return <tr className=" h-16 border-b border-black  hover:bg-slate-200 " key={index}>
 
-                                    <td className="flex items-center h-16 pl-6  pr-3  font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td className="flex items-center h-16 pl-6  pr-3  font-medium text-gray-900 whitespace-nowrap ">
                                         {school.name}
                                     </td>
                                     <td className=" pl-6 pr-10 py-4 ">
@@ -165,9 +165,9 @@ const LevelComp = () => {
                                         <Hemich_TableCell number={zyeda_no9san} />
                                     </td>
                                     <td className="pr-5 px-6 py-4 flex  justify-end">
-                                        <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline pl-5">
+                                        <button className="font-medium text-blue-600  hover:underline pl-5">
                                             <Link to={'edit/' + sid}>
-                                                تغيير
+                                                تحيين
                                             </Link>
                                         </button>
                                     </td>
